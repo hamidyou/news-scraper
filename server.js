@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const articles = require('./controllers/article-controller')
+const comments = require('./controllers/comments-controller')
 
 const PORT = 3000
 
@@ -15,6 +16,7 @@ app
   .use(express.json())
   .use(express.static('public'))
   .use(articles)
+  .use(comments)
 // Connect to the Mongo DB
 mongoose.connect('mongodb://localhost/Article', { useNewUrlParser: true })
 

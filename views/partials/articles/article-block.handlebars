@@ -1,4 +1,4 @@
-<article class="container my-5">
+<article class="container my-5" id="{{_id}}">
 	<div class="card border border-dark">
 		<div class="card-header bg-light container">
 			<a href="{{link}}">
@@ -9,25 +9,27 @@
 			<h4 class="text-center">Summary</h4>
 			<p class="card-text">{{summary}}</p>
 		</div>
-		<div class="card-footer">
+		<div class="card-footer bg-white">
 			<div class="container">
 				<h5 class="text-center">Comments</h5>
-				<div class="row">
+				<form class="row" id="commentForm">
 					<div class="col-10">
 						<div class="container">
-							<textarea type="text" name="comments" class="w-100"></textarea>
+							<textarea type="text" name="comments" class="w-100" id="comment_{{_id}}"></textarea>
+							<input type="text" name="author" id="author_{{_id}}" class="mb-2 float-right" placeholder="Name">
 						</div>
 					</div>
 					<div class="col-2">
-						<button type="submit" class="btn btn-primary float-right">Add a Comment</button>
+						<button type="submit" class="btn btn-primary float-right" data-id="{{_id}}" id="submit">Add a Comment</button>
 					</div>
-				</div>
+				</form>
+
 				<div class="my-4">
-					<blockquote class="blockquote">
-						<p class="mb-0">{{ comment.text }}</p>
-						<footer class="blockquote-footer"> <cite title="Source Title">{{ comment.author }}</cite></footer>
-					</blockquote>
+					{{#each comments}}
+					{{> comments/comments-block}}
+					{{/each}}
 				</div>
+
 			</div>
 		</div>
 	</div>
