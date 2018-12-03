@@ -1,14 +1,33 @@
-<article class="container">
-	<div class="card">
-		<div class="card-header bg-dark">
-			<h2>{{title}}</h2>
+<article class="container my-5">
+	<div class="card border border-dark">
+		<div class="card-header bg-light container">
+			<a href="{{link}}">
+				<h2 class="text-center mx-auto">{{title}}</h2>
+			</a>
 		</div>
 		<div class="card-body">
+			<h4 class="text-center">Summary</h4>
 			<p class="card-text">{{summary}}</p>
 		</div>
-		<div class="card-footer text-muted">
+		<div class="card-footer">
 			<div class="container">
-				<input type="text" name="comments" id="">
+				<h5 class="text-center">Comments</h5>
+				<div class="row">
+					<div class="col-10">
+						<div class="container">
+							<textarea type="text" name="comments" class="w-100"></textarea>
+						</div>
+					</div>
+					<div class="col-2">
+						<button type="submit" class="btn btn-primary float-right">Add a Comment</button>
+					</div>
+				</div>
+				<div class="my-4">
+					<blockquote class="blockquote">
+						<p class="mb-0">{{ comment.text }}</p>
+						<footer class="blockquote-footer"> <cite title="Source Title">{{ comment.author }}</cite></footer>
+					</blockquote>
+				</div>
 			</div>
 		</div>
 	</div>
