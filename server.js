@@ -4,7 +4,7 @@ const exphbs = require('express-handlebars')
 const articles = require('./controllers/article-controller')
 const comments = require('./controllers/comments-controller')
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 // Initialize Express
 const app = express()
@@ -17,8 +17,12 @@ app
   .use(express.static('public'))
   .use(articles)
   .use(comments)
+
+// Integrating Heroku deployment
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost/Article'
+
 // Connect to the Mongo DB
-mongoose.connect('mongodb://localhost/Article', { useNewUrlParser: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
 // Start the server
 app.listen(PORT, () => {
