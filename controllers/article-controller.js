@@ -8,8 +8,11 @@ const db = require('../models')
 const router = express.Router()
 
 router
+  .get('/', (req, res) => {
+    res.render('index')
+  })
   // Route for getting all Articles from the db and sending them back as json
-  .get('/', function (req, res) {
+  .get('/Articles', function (req, res) {
     // TODO: Finish the route so it grabs all of the articles
     // Empty object for all of the articles
     db.Article.find({})
