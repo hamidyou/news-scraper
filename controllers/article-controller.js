@@ -1,6 +1,7 @@
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const { split, findIndex, compose, filter, ensureArray, slice, join, pipe, curry } = require('kyanite')
 
 const db = require('../models')
 
@@ -23,7 +24,6 @@ router
   .get('/scrape', function (req, res) {
     axios.get('https://www.npr.org/').then(function (response) {
       const $ = cheerio.load(response.data)
-
       $('.story-text a').each(function (i, element) {
         // Save an empty result object
         let result = {}
@@ -40,19 +40,22 @@ router
           .children('.teaser')
           .text()
 
-        console.log(result)
+        const getIndex = link => [link, findIndex(x => x === '2018', split('/', link))]
+
+        const getDate = idx => slice(idx[1], idx[1] + 3, split('/', idx[0])).join('/')
+
+        console.log(compose(getDate, getIndex, result.link))
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
           .then(function (dbArticle) {
             // View the added result in the console
-            console.log(dbArticle)
+            return dbArticle
           })
           .catch(function (err) {
             // If an error occurred, log it
-            console.log(err)
+            return err
           })
       })
-      location.replace('/')
       // Send a message to the client
       res.send('Scrape Complete')
     })

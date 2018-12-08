@@ -23,3 +23,14 @@ $(document).on('click', '#submit', function () {
   $('#author_' + thisId).val('')
   $('#comment_' + thisId).val('')
 })
+
+$(document).on('click', '#scrape', () => {
+  $.ajax({
+    method: 'GET',
+    url: '/scrape'
+  })
+    .then(data => {
+      console.log(data)
+    })
+    .then(location.reload(true))
+})
