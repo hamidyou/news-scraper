@@ -4,13 +4,14 @@ const exphbs = require('express-handlebars')
 const articles = require('./controllers/article-controller')
 const comments = require('./controllers/comments-controller')
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
 // Initialize Express
 const app = express()
 
 app
-  .engine('handlebars', exphbs({ defaultLayout: 'main' }))
+  .engine('handlebars',
+    exphbs({ defaultLayout: 'main' }))
   .set('view engine', 'handlebars')
   .use(express.urlencoded({ extended: true }))
   .use(express.json())

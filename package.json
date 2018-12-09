@@ -22,7 +22,9 @@
     "cheerio": "1.0.0-rc.2",
     "express": "4.16.4",
     "express-handlebars": "3.0.0",
+    "handlebars-intl": "^1.1.2",
     "kyanite": "0.10.3",
-    "mongoose": "5.3.14"
+    "mongoose": "5.3.14",
+    "nodemon": "^1.18.7"
   }
 }

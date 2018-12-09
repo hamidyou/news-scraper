@@ -1,7 +1,7 @@
 const express = require('express')
 const axios = require('axios')
 const cheerio = require('cheerio')
-const { split, findIndex, compose, filter, ensureArray, slice, join, pipe, curry } = require('kyanite')
+const { split, findIndex, compose, not, eq, slice, join, pipe, dropWhile, take } = require('kyanite')
 
 const db = require('../models')
 
@@ -12,10 +12,10 @@ router
     res.render('index')
   })
   // Route for getting all Articles from the db and sending them back as json
-  .get('/Articles', function (req, res) {
+  .get('/Articles', (req, res) => {
     // TODO: Finish the route so it grabs all of the articles
     // Empty object for all of the articles
-    db.Article.find({})
+    db.Article.find({}).sort([['date', 'desc'], ['title', 'asc']])
       .then(function (dbArticle) {
         res.render('index', { articles: dbArticle })
       })
@@ -31,6 +31,9 @@ router
         // Save an empty result object
         let result = {}
 
+        // const getIndex = link => findIndex(x => x === '2018', split('/', link))
+
+        // const getDate = idx => slice(idx, idx + 3, split('/', result.link))
         // Add the text and href of every link, and save them as properties of the result object
         result.title = $(this)
           .children('h3')
@@ -41,15 +44,18 @@ router
         result.summary = $(this)
           .siblings('a')
           .children('.teaser')
-          .text()
+          .text() ||
+          'No Summary available'
+        result.date = pipe([
+          split('/'),
+          dropWhile(compose(not, eq('2018'))),
+          take(3),
+          join('/')
+        ], result.link)
 
-        const getIndex = link => [link, findIndex(x => x === '2018', split('/', link))]
-
-        const getDate = idx => slice(idx[1], idx[1] + 3, split('/', idx[0])).join('/')
-
-        console.log(compose(getDate, getIndex, result.link))
+        console.log(result.date)
         // Create a new Article using the `result` object built from scraping
-        db.Article.create(result)
+        db.Article.insertMany(result, { ordered: false })
           .then(function (dbArticle) {
             // View the added result in the console
             return dbArticle

@@ -31,6 +31,6 @@ $(document).on('click', '#scrape', () => {
   })
     .then(data => {
       console.log(data)
+      location.replace('/Articles')
     })
-    .then(location.reload(true))
 })
